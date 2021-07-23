@@ -35,15 +35,18 @@ class ReviewController extends Controller
             'image' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        if ($request->hasFile('image')) {
-
+        // if ($request->hasFile('image')) {
+        if ($request->image) {
             $request->file('image')->store('/public/images');
             $data = [
                 'user_id' => Auth::id(),
                 'title' => $post['title'],
                 'body' => $post['body'],
-                $request->file('image')->hasName()
-            ];
+                // $image = $request->image;
+                // $file_name = \Str::random(10) . '.' . $image->getClientOriginalExtension();
+                // $target_path = public_path('images/no_image.jpg');
+                // $image->move($target_path, $file_name);
+                ];
         } else {
             $data = [
                 'user_id' => Auth::id(),

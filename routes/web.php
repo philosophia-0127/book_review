@@ -45,3 +45,10 @@ Route::group(['middleware' => 'auth'], function() {
                 ->name('update');
         });
 });
+
+Route::group(['middleware' => 'auth'], function() {
+    Route::name('player.')
+        ->group(function() {
+            
+        });
+});
