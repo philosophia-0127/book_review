@@ -27,9 +27,7 @@ class ReviewController extends Controller
 
     public function store(Request $request)
     {
-        $post = $request->all();
-
-        $validatedData = $request->validate([
+        $request->validate([
             'title' => 'required|max:255',
             'body' => 'required',
             'image' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
