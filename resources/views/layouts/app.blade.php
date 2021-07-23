@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Bookers @yield('title')</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -16,65 +16,86 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css?family=Caveat">
+
+    <script src="https://kit.fontawesome.com/55668a3b00.js" crossorigin="anonymous"></script>
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
+
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-secondary py-4 mb-4">
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+            <h3 class="row">
+                <a href="{{ url('/') }}" class="title-logo text-light text-decoration-none ms-5">Bookers</a>
+            </h3>
 
-                    </ul>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#drop">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
+            <div class="collapse navbar-collapse" id="drop">
+                <ul class="navbar-nav ms-auto">
 
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+                    @guest
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
+                        <a href="{{ url('login') }}" class="text-light text-decoration-none">
+                            <li class="me-3">ログイン</li>
+                        </a>
+
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="text-light text-decoration-none">
+                                <li class="me-3">新規登録</li>
+                            </a>
+                        @endif
+
+                    @else
+
+                        <a href="{{ route('user.show') }}" class="text-light text-decoration-none">
+                            <li class="me-3">マイページ</li>
+                        </a>
+
+                        <a href="{{ route('logout') }}" class="text-light text-decoration-none"
+                        onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
+                            <li class="me-3">ログアウト</li>
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+
+                    @endguest
+
+                </ul>
             </div>
-        </nav>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
-    </div>
+        </nav>
+    </header>
+
+    <main class="py-4">
+
+        @if (session('flash_message'))
+            <div class="flash_message col-8 border border-success mx-auto text-center h2 py-3 mb-5">
+                {{ session('flash_message') }}
+            </div>
+        @endif
+
+        @yield('content')
+    </main>
+
+    <footer>
+        <div class='container mt-5'>
+            <div class='row'>
+                <p class="small text-center text-muted">© 2021　Ayumu Noda　All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>

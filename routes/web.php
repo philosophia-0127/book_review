@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +15,7 @@ use App\Http\Controllers\ReviewController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('top');
 });
 
 Auth::routes();
@@ -24,9 +25,23 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => 'auth'], function() {
     Route::name('review.')
         ->group(function() {
+            Route::get('/review/{id}', 'ReviewController@show')
+                ->name('show');
+            Route::get('/index', 'ReviewController@index')
+                ->name('index');
             Route::get('/review', 'ReviewController@create')
                 ->name('create');
             Route::post('/review/store', 'ReviewController@store')
                 ->name('store');
+        });
+});
+
+Route::group(['middleware' => 'auth'], function() {
+    Route::name('user.')
+        ->group(function() {
+            Route::get('/user', 'UserController@show')
+                ->name('show');
+            Route::post('/user', 'UserController@update')
+                ->name('update');
         });
 });
