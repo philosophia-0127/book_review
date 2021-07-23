@@ -33,8 +33,10 @@ class ReviewController extends Controller
             'image' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $Review = new Review();
-        $Review->fill($request->all())->save();
+        $review = new Review();
+        $review->fill($request->all());
+        $review->user_id = Auth::id();
+        $review->save();
 
         return redirect('/index')
             ->with('flash_message', '投稿が完了しました！');
